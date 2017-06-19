@@ -1,16 +1,17 @@
+	
 <?php
 	if(isset($_POST["register_button"])) {
 		
 		$ID = 0;
+		$IDFS = 0;
 		//$ID = $_POST["ID"];
 		$username = $_POST["username"];
 		$password = $_POST["password"];
 		$time=time();
 		
 	$mysqli = mysqli_connect("localhost", "root", "", "group_gmmw");
-	$input = "INSERT INTO user (ID, username, password, time)"
-	. "VALUES ('$ID', '$username', '$password', '$time')";
-
+	$input = "INSERT INTO user (UserID, GroupIDFS, Username, Password)"
+	. "VALUES ('$UserID', '$GroupIDFS', '$username', '$Password')";
 	$eintragen = mysqli_query($mysqli, $input);
 	}
 ?>
@@ -23,38 +24,26 @@
 		<title>GMMW</title>
 	</head>
 	<body>
-		<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-		<div class="container-fluid">
-			 <form action="" method="" class="register-form"> 
-		      <div class="row">      
-			   <div class="col-md-4 col-sm-4 col-lg-4">
-			      <label for="firstName">NAME</label>
-			       <input name="firstName" class="form-control" type="text">    
-			   </div>            
-		      </div>
-		      <div class="row">
-			   <div class="col-md-4 col-sm-4 col-lg-4">
-			      <label for="email">EMAIL</label>
-			       <input name="email" class="form-control" type="email">             
-			   </div>            
-		      </div>
-		      <div class="row">
-			   <div class="col-md-4 col-sm-4 col-lg-4">
-			      <label for="password">PASSWORD</label>
-			       <input name="password" class="form-control" type="password">             
-			   </div>            
-		      </div>
-		      <hr>
-		      <div class="row">
-			   <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
-			   <button class="btn btn-default regbutton">Register</button>
+		<form>
+			<label for="user">Username:</label>
+			<input type="text" name="username" id="username" placeholder="nacvor"/></br>   
+			<label for="user">Passwort:</label>
+			<input type="password" name="password" id="password" placeholder="password"/></br>
+			<label for="type">Mitgliedertyp:</label>
+			<select name="type" size="1">
+				<option>Arbeitszeit</option>
+				<option>Schule</option>
+				<option>Krank</option>
+				<option>Ferien</option>
+			</select>
+			</br>
+			<button type="submit" class="btn btn-send" value="login_button">Anmelden</button>
+			<button type="submit" class="btn btn-send" value="logout_button">Abmelden</button>
+			</br></br>
+		</form>
+		<form action="register.php" method="post">
+			<input type="submit" name="register_button" value="Registrieren">
+		</form>
 
-			  </div>
-			  <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
-			   <button class="btn btn-default logbutton">Sign up</button>           
-			  </div>          
-		      </div>    
-		    </form>
-		</div>
-  	</body>
+  </body>
 </html>
