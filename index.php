@@ -8,9 +8,12 @@
   </head>
   <body>
   
-   <input type="text" name="username" id="username" placeholder="Nachname Vorname --> nacvor"/>
-   <label for="mail">Mitgliedertyp:</label>
-	<select name="typ" size="1">
+   <label for="user">Username:</label>
+   </br>
+    <input type="text" name="username" id="username" placeholder="Nachname Vorname --> nacvor"/></br>
+	<label for="type">Mitgliedertyp:</label>
+	</br>
+	<select name="type" size="1">
 		<option>Arbeitszeit</option>
 		<option>Krank</option>
 		<option>Ferien</option>
