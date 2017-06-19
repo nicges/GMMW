@@ -1,17 +1,35 @@
 <?php
-	if(isset($_POST["register_button"])) {
-		
-		$ID = 0;
-		//$ID = $_POST["ID"];
-		$username = $_POST["username"];
-		$password = $_POST["password"];
-		
-	$mysqli = mysqli_connect("localhost", "root", "", "group_gmmw");
-	$input = "INSERT INTO user (ID, username, password)"
-	. "VALUES ('$ID', '$username', '$password')";
+session_start();
+$conn = new mysqli('localhost', 'root', '', 'gmmw');
+$showFormular = true; //Variable ob das Registrierungsformular anezeigt werden soll
 
-	$eintragen = mysqli_query($mysqli, $input);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+else{
+	if(isset($_POST['register_button'])) {
+		$GroupIDFS = 1;
+		$Username = $_POST['username'];
+		$Password = $_POST['password'];
+		$salt = $_POST['password'];
+
+		$sql = "INSERT INTO user (GroupIDFS, Name, Password, Salt) 
+		VALUES ($GroupIDFS, '$Username', '$Password', '$salt')";
+		
+		if ($conn->query($sql) === TRUE) {
+			echo "New record created successfully";
+		} else {
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+
+		$conn->close();
 	}
+}
+
+
+
+ 
+if($showFormular) {
 ?>
 
 <!DOCTYPE html>
@@ -24,13 +42,13 @@
   </head>
   <body>
 	<div>
-	  <form action="register.php" method="post">
+	  <form  method="post">
 		<div>
-			<label for="name">username:</label>
+			<label for="name">Username:</label>
 			<input type="text" name="username" placeholder="Muster" pattern="[A-Za-z]{0,50}" required>
 		</div>
 		<div>
-			<label for="pwd">password:</label>
+			<label for="pwd">Password:</label>
 			<input type="password" name="password" placeholder="password" required>
 		</div>
 		<input type="submit" name="register_button" value="Registrieren">
@@ -40,6 +58,6 @@
   
   
   
-      
+<?php } ?> 
   </body>
 </html>
