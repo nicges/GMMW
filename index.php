@@ -23,26 +23,38 @@
 		<title>GMMW</title>
 	</head>
 	<body>
-		<form>
-			<label for="user">Username:</label>
-			<input type="text" name="username" id="username" placeholder="nacvor"/></br>   
-			<label for="user">Passwort:</label>
-			<input type="text" name="password" id="password" placeholder="password"/></br>
-			<label for="type">Mitgliedertyp:</label>
-			<select name="type" size="1">
-				<option>Arbeitszeit</option>
-				<option>Schule</option>
-				<option>Krank</option>
-				<option>Ferien</option>
-			</select>
-			</br>
-			<button type="submit" class="btn btn-send" value="login_button">Anmelden</button>
-			<button type="submit" class="btn btn-send" value="logout_button">Abmelden</button>
-			</br></br>
-		</form>
-		<form action="register.php" method="post">
-			<input type="submit" name="register_button" value="Registrieren">
-		</form>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+		<div class="container-fluid">
+			 <form action="" method="" class="register-form"> 
+		      <div class="row">      
+			   <div class="col-md-4 col-sm-4 col-lg-4">
+			      <label for="firstName">NAME</label>
+			       <input name="firstName" class="form-control" type="text">    
+			   </div>            
+		      </div>
+		      <div class="row">
+			   <div class="col-md-4 col-sm-4 col-lg-4">
+			      <label for="email">EMAIL</label>
+			       <input name="email" class="form-control" type="email">             
+			   </div>            
+		      </div>
+		      <div class="row">
+			   <div class="col-md-4 col-sm-4 col-lg-4">
+			      <label for="password">PASSWORD</label>
+			       <input name="password" class="form-control" type="password">             
+			   </div>            
+		      </div>
+		      <hr>
+		      <div class="row">
+			   <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
+			   <button class="btn btn-default regbutton">Register</button>
 
-  </body>
+			  </div>
+			  <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
+			   <button class="btn btn-default logbutton">Sign up</button>           
+			  </div>          
+		      </div>    
+		    </form>
+		</div>
+  	</body>
 </html>
