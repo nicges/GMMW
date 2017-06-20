@@ -1,0 +1,282 @@
+<?php
+header('charset=utf-8');
+$startForm = true;
+$gender = "";
+$firstname = "";
+$name = "";
+$birthdate = "";
+$mobile = "";
+$email = "";
+$rent = false;
+$clothsize = "";
+$selectedDates = array();
+$error = false;
+$errorTexts = array(
+				"gender" => false,
+				"firstname" => false,
+				"name" => false,
+				"birthdate" => false,
+				"mobile" => false,
+				"email" => false,
+				"selectedDates" => false,
+				);
+
+if(isset($_POST['OK'])){
+	unset($_POST['OK']);
+	$startForm = false;
+	
+	if(!isset($_POST['gender'])){
+		$error = true;
+		$errorTexts['gender'] = true;
+	}else{
+		$gender = $_POST['gender'];
+		$errorTexts['gender'] = false;
+	}
+	
+	if (!preg_match("/^[A-Za-zäöü]{1,50}$/", $_POST['firstname']))
+	{
+		$error = true;
+		$errorTexts['firstname'] = true;
+		$firstname = $_POST['firstname'];
+	}else{
+		$firstname = $_POST['firstname'];
+		$errorTexts['firstname'] = false;
+	}
+	
+	if (!preg_match("/^[A-Za-zäöü]{1,50}$/", $_POST['name']))
+	{
+		$error = true;
+		$errorTexts['name'] = true;
+		$name = $_POST['name'];
+	}else{
+		$name = $_POST['name'];
+		$errorTexts['name'] = false;
+	}
+	
+	if(!isset($_POST['birthdate']) || date('Y') < substr($_POST['birthdate'], 0,4) || !preg_match("/^(\d{4}-\d{2}-\d{2})$/", $_POST['birthdate'])){
+		$error = true;
+		$errorTexts['birthdate'] = true;
+		$birthdate = $_POST['birthdate'];
+	}else{
+		$birthdate = $_POST['birthdate'];
+		$errorTexts['birthdate'] = false;
+	}
+	
+	if (!preg_match("/^(0\d{2}\s\d{3}\s\d{2}\s\d{2})$/", $_POST['mobile']))
+	{
+		$error = true;
+		$errorTexts['mobile'] = true;
+		$mobile = $_POST['mobile'];
+	}else{
+		$mobile = $_POST['mobile'];
+		$errorTexts['mobile'] = false;
+	}
+	
+	if (!preg_match("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/", $_POST['email']))
+	{
+		$error = true;
+		$errorTexts['email'] = true;
+		$email = $_POST['email'];
+	}else{
+		$email = $_POST['email'];
+		$errorTexts['email'] = false;
+	}
+		
+	if(isset($_POST["clothsize"]))
+		$clothsize = $_POST["clothsize"];	
+	
+	if(isset($_POST["rent"]))
+		$rent = true;
+	else 
+		$rent = false;	
+
+	if(!isset($_POST['selectedDates']) || empty($_POST['selectedDates'])){
+		$error = true;
+		$errorTexts['selectedDates'] = true;
+	}else{
+		$selectedDates = $_POST['selectedDates'];
+		$errorTexts['selectedDates'] = false;
+	}
+}
+?>
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>PHP Form Uebungen</title>
+<style>
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    text-align: left;
+    padding: 2px;
+}
+.error{
+	color:red;
+}
+.second{
+	padding-left:40px;
+}
+
+</style>
+</head>
+
+<body>
+	
+
+	<?php
+	if($startForm || $error){
+	?>
+	<!-- Form Inhalt -->
+	<div name="formInhalt">
+		<form  method="POST">
+			<fieldset> <legend><h1>Uebung Form</h1></legend>
+			<table>
+				<tr>
+					<td><label for="geschlecht">Geschlecht*</label></td>
+					<td class="second">
+						<input type="radio" name="gender" value="male" <?php if(isset($gender) && $gender == "male"){echo "checked";}?>>M
+						<input type="radio" name="gender" value="female" <?php if(isset($gender) && $gender == "female"){echo "checked";}?>>W
+					</td>
+					<?php if($errorTexts['gender']){ ?>
+						<td class="error">Bitte wählen Sie ein Geschlecht aus!</td>
+					<?php } ?>	
+				</tr>
+				<tr>
+					<td><label for="firstname">Vorname*</label></td>
+					<td class="second"><input type="text" name="firstname" value="<?=$firstname?>"></td>
+					<?php if($errorTexts['firstname']){ ?>
+						<td class="error">Bitte geben Sie einen korrekten Vornamen an.</td>
+					<?php } ?>	
+				</tr>
+				<tr>
+					<td><label for="name">Name*</label></td>
+					<td class="second"><input type="text" id="name" name="name" value="<?=$name?>"></td>
+					<?php if($errorTexts['name']){ ?>
+						<td class="error">Bitte geben Sie einen korrekten Namen an.</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<td><label for="birthdate">Geburtsdatum*</label></td>
+					<td class="second"><input type="date" name="birthdate" placeholder="1997-12-31" value="<?=$birthdate?>"></td>
+					<?php if($errorTexts['birthdate']){ ?>
+						<td class="error">Bitte geben Sie ein korrektes Geburtsdatum an.</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<td><label for="mobile">Phone*</label></td>
+					<td class="second"><input type="text" name="mobile"  placeholder="044 333 22 11"  value="<?=$mobile?>"></td>
+					<?php if($errorTexts['mobile']){ ?>
+						<td class="error">Bitte geben Sie eine korrekte Telefonnummer an.</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<td><label for="email">E-Mail*</label></td>
+					<td class="second"><input type="text" id="email" name="email" placeholder="info@zli.ch"  value="<?=$email?>"></td>
+					<?php if($errorTexts['email']){ ?>
+						<td class="error">Bitte geben Sie eine korrektes E-Mail an.</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<td><label for="rent">Miete </td>
+					<td class="second"><input type="checkbox" id="rent" name="rent" value="true" <?php if($rent){echo "checked";} ?>></td>
+				</tr>
+				<tr>
+					<td><label for="clothsize"> Kleidergroesse</td>
+					<td class="second">
+					<select name="clothsize" required>
+						<option value="S" <?php if($clothsize == "S"){echo "selected";}?>>S
+						<option value="M" <?php if($clothsize == "M"){echo "selected";}?>>M
+						<option value="L" <?php if($clothsize == "L"){echo "selected";}?>>L
+						<option value="XL" <?php if($clothsize == "XL"){echo "selected";}?>>XL
+						<option value="XXL" <?php if($clothsize == "XXL"){echo "selected";}?>>XXL
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="selectedDates[]">Datums auswahl*:</label></td>
+					<td class="second"><input type="checkbox" name="selectedDates[]" value="2017-06-03" 
+					<?php if(!empty($selectedDates) && is_array($selectedDates)){foreach($selectedDates as $dat){if($dat == "2017-06-03"){echo "checked";}}}?>
+					>Sa 03.06.2017</td>
+					<?php if($errorTexts['selectedDates']){ ?>
+						<td class="error">Wählen Sie mindestens 1 Datum.</td>
+					<?php } ?>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="second"><input type="checkbox" name="selectedDates[]" value="2017-06-04" 
+					<?php if(!empty($selectedDates) && is_array($selectedDates)){foreach($selectedDates as $dat){if($dat == "2017-06-04"){echo "checked";}}}?>
+					>So 04.06.2017</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="second"><input type="checkbox" name="selectedDates[]" value="2017-06-10" 
+					<?php if(!empty($selectedDates) && is_array($selectedDates)){foreach($selectedDates as $dat){if($dat == "2017-06-10"){echo "checked";}}}?>
+					>Sa 10.06.2017</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="second"><input type="checkbox" name="selectedDates[]" value="2017-06-11" 
+					<?php if(!empty($selectedDates) && is_array($selectedDates)){foreach($selectedDates as $dat){if($dat == "2017-06-11"){echo "checked";}}}?>
+					>So 11.06.2017</td>
+				</tr>
+			</table>
+			<input style="width:250px;"type="submit" name="OK" value="OK">
+			<p>* = Pflichtfelder</p>
+			</fieldset>
+		</form>
+	</div>
+	<!-- Ende Form Inhalt -->
+	<?php
+	}else {
+	
+	?>
+		<fieldset> <legend><h1>Uebung Form Ausgabe</h1></legend>
+			<table>
+				<tr>
+					<td>Gechlecht: </td>
+					<td class ="second"><?php echo $gender;?></td>
+				</tr>
+				<tr>
+					<td>Vorname: </td>
+					<td class ="second"><?php echo $firstname;?></td>
+				</tr>
+				<tr>
+					<td>Name: </td>
+					<td class ="second"><?php echo $name;?></td>
+				</tr>
+				<tr>
+					<td>Geburtsdatum: </td>
+					<td class ="second"><?php echo $birthdate;?></td>
+				</tr>
+				<tr>
+					<td>Telefon: </td>
+					<td class ="second"><?php echo $mobile;?></td>
+				</tr>
+				<tr>
+					<td>E-Mail: </td>
+					<td class ="second"><?php echo $email;?></td>
+				</tr>
+				<tr>
+					<td>Kleidergrösse: </td>
+					<td class ="second"><?php echo $clothsize;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $rent;?></td>
+				</tr>
+				<tr>
+					<td>kann an den folgenden Daten:</td>
+					<td class ="second"><?php echo implode(', ', $selectedDates); ?></td>
+				</tr>
+			</table>
+		</fieldset>
+	<?php			
+	}	
+	
+	?>
+
+</body>
+</html>
